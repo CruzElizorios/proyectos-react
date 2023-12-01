@@ -1,7 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-export const TwitterCardSeguir = ({ formatUserName,userName, name, isFollowing}) => {
-    console.log(isFollowing)
+export const TwitterCardSeguir = ({ formatUserName,userName, name}) => {
+    const [isFollowing, setIsFollowing]  = useState(false)
+    
+    
+    const text = isFollowing ? 'Siguiendo' : 'Seguir'
+    const buttonClassName = isFollowing ?'tw-followCard-button is-following' : 'tw-followCard-button'
+
+    const cambioSeguir = () => {
+        setIsFollowing (!isFollowing)
+    } 
     const imgSrc = `https://unavatar.io/github/${userName}` 
     // CruzElizorios
     return (
@@ -14,8 +22,8 @@ export const TwitterCardSeguir = ({ formatUserName,userName, name, isFollowing})
                 </div>
             </header>
             <aside >
-                <button className='tw-followCard-button'>
-                    Seguir
+                <button className={buttonClassName} onClick={cambioSeguir}>
+                    {text}
                 </button>
             </aside>
         </article>

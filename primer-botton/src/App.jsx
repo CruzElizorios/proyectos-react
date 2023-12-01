@@ -7,9 +7,9 @@ export const App = () => {
 
     return (
     <section className='sectionTwitterCards'>
-        <TwitterCardSeguir formatUserName={format} isFollowing={true} userName="CruzElizorios" name="Cruz Elizondo Rios" />
-        <TwitterCardSeguir formatUserName={format}  isFollowing={false}  userName="JuanBau" name="Juan Bautista" />
-        <TwitterCardSeguir formatUserName={format} isFollowing userName="Pedro" name="Pedro Gatito Fernandez"/>
+        <TwitterCardSeguir formatUserName={format} userName="CruzElizorios" name="Cruz Elizondo Rios" />
+        <TwitterCardSeguir formatUserName={format}   userName="JuanBau" name="Juan Bautista" />
+        <TwitterCardSeguir formatUserName={format} userName="Pedro" name="Pedro Gatito Fernandez"/>
     </section>
   )
 }
