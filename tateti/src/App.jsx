@@ -2,8 +2,8 @@ import { useState } from 'react'
 import './App.css'
  
   const TURNS = {
-  X: 'x',
-  O: 'o'
+  X: '✖️',
+  O: '⭕'
  }
 
 
@@ -35,25 +35,6 @@ function App() {
   const [turn, setTurn] = useState(TURNS.X)
   const [winner, setWinner] = useState(null)
 
-
-  const updateBoard = (index) => {
-    //para dejar sobreescribir el tablero Si se clickea sobre uno ya marcado o si hay ganador
-    if (board[index] || winner) return
-    //actualizar el tablero
-    const newBoard = [...board]
-    newBoard[index] = turn
-    setBoard(newBoard)
-    //cambia el turno
-    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
-    setTurn(newTurn)
-    //verifica si el hay ganador con el ultimo movimiento cargado
-    const newWinner = checkWinner(newBoard)
-    
-    if(newWinner){
-      setWinner(newWinner)
-    }
-  }
-
   const checkWinner = (boardToCheck) =>{
     //recorro todos los combos ganadores
     for(const combo of combos_winner){
@@ -72,17 +53,44 @@ function App() {
     setTurn(TURNS.X)
     setWinner(null)
   }
+  const checkEmpate = (newBoard)=>{
+    //revisamos si no hay espacios vacios(null) en el tablero
+    // newBoard = ['x','o','x',null,'x','o','x',null,'o']
+    return newBoard.every((square)=> square !== null)
+    //si se cumple esto devuelve un true
+  }
+
+  const updateBoard = (index) => {
+    //para dejar sobreescribir el tablero Si se clickea sobre uno ya marcado o si hay ganador
+    if (board[index] || winner) return
+    //actualizar el tablero
+    const newBoard = [...board]
+    newBoard[index] = turn
+    setBoard(newBoard)
+    //cambia el turno
+    const newTurn = turn === TURNS.X ? TURNS.O : TURNS.X
+    setTurn(newTurn)
+    //verifica si el hay ganador con el ultimo movimiento cargado
+    const newWinner = checkWinner(newBoard)
+    //si hay ganador setea el ganador sino fue un empate
+    if(newWinner){
+      setWinner(newWinner)
+    }else if (checkEmpate(newBoard)){
+      setWinner(false)
+    }
+  }
+
   return (
     <main className='board'>
         <h1>Ta Te Ti </h1>
         <section className='game'>
           {
-            board.map((_, index) =>{
+            board.map((square , index) =>{
               return(
                 <Square key={index}
                  index={index}
                  updateBoard={updateBoard} >
-                  {board[index]}
+                  {square}
                 </Square>
               )
             })
@@ -96,6 +104,7 @@ function App() {
             {TURNS.O} 
           </Square>
         </section>
+        <button onClick={resetGame}>Reiniciar partida</button>
         {
           winner !== null && (
             <section className='winner'>
